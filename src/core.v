@@ -189,7 +189,7 @@ module core#(
     .i_rd_addr_a(instr_d[25:21]),
     .i_rd_addr_b(instr_d[20:16]),
     .i_wr_addr(reg_wr_addr),
-    .i_wr_data(instr_data_out),
+    .i_wr_data(reg_wr_data),
     .i_wr_enable(reg_wr_en),
     .o_rd_data_a(reg_rd_port_a),
     .o_rd_data_b(reg_rd_port_b));
