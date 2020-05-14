@@ -3,23 +3,23 @@ module control_unit#(
   parameter FUNCT_WIDTH_P = 6,
   parameter OP_WIDTH_P = 6
 )(
-  input wire clk,
-  input wire reset,
-  input wire [OP_WIDTH_P-1:0] i_opcode,
-  input wire [FUNCT_WIDTH_P-1:0] i_function,
+  input wire                          clk,
+  input wire                          reset,
+  input wire [OP_WIDTH_P-1:0]         i_opcode,
+  input wire [FUNCT_WIDTH_P-1:0]      i_function,
 
-  output wire o_enable_pc,
-  output wire o_branch,
-  output wire o_pc_next_sel,
+  output wire                         o_enable_pc,
+  output wire                         o_branch,
+  output wire                         o_pc_next_sel,
   output wire [ALU_CNTRL_WIDTH_P-1:0] o_alu_cntrl,
-  output wire [1:0] o_alu_src_b_sel,
-  output wire o_alu_src_a_sel,
-  output wire o_reg_wr_en,
-  output wire o_instr_data_addr_sel,
-  output wire o_instr_data_wr_en,
-  output wire o_instr_wr_en,
-  output wire o_reg_wr_addr_sel,
-  output wire o_reg_wr_data_sel);
+  output wire [1:0]                   o_alu_src_b_sel,
+  output wire                         o_alu_src_a_sel,
+  output wire                         o_reg_wr_en,
+  output wire                         o_instr_data_addr_sel,
+  output wire                         o_instr_data_wr_en,
+  output wire                         o_instr_wr_en,
+  output wire                         o_reg_wr_addr_sel,
+  output wire                         o_reg_wr_data_sel);
 
   //----------------------------------------------------------------------------
   // local parameter declarations
@@ -122,7 +122,7 @@ module control_unit#(
         enable_pc           = 1'b1;
         branch              = 1'b0;
         pc_next_sel         = 1'b0;
-        alu_decode_input    = 2'b00;
+        alu_op              = 2'b00;
         alu_src_b_sel       = 2'b01;
         alu_src_a_sel       = 1'b0;
         reg_wr_en           = 1'b0;
@@ -137,7 +137,7 @@ module control_unit#(
         enable_pc           = 1'b0;
         branch              = 1'b0;
         pc_next_sel         = 1'b0;
-        alu_decode_input    = 2'b00;
+        alu_op              = 2'b00;
         alu_src_b_sel       = 2'b11;
         alu_src_a_sel       = 1'b0;
         reg_wr_en           = 1'b0;
@@ -174,7 +174,7 @@ module control_unit#(
         enable_pc           = 1'b0;
         branch              = 1'b0;
         pc_next_sel         = 2'b00;
-        alu_decode_input    = 2'b00;
+        alu_op              = 2'b00;
         alu_src_b_sel       = 2'b10;
         alu_src_a_sel       = 1'b1;
         reg_wr_en           = 1'b0;
@@ -193,7 +193,7 @@ module control_unit#(
         enable_pc           = 1'b0;
         branch              = 1'b0;
         pc_next_sel         = 2'b00;
-        alu_decode_input    = 2'b00;
+        alu_op              = 2'b00;
         alu_src_b_sel       = 2'b00;
         alu_src_a_sel       = 1'b0;
         reg_wr_en           = 1'b0;
@@ -208,7 +208,7 @@ module control_unit#(
         enable_pc           = 1'b0;
         branch              = 1'b0;
         pc_next_sel         = 2'b00;
-        alu_decode_input    = 2'b00;
+        alu_op              = 2'b00;
         alu_src_b_sel       = 2'b00;
         alu_src_a_sel       = 1'b0;
         reg_wr_en           = 1'b1;
@@ -223,7 +223,7 @@ module control_unit#(
         enable_pc           = 1'b0;
         branch              = 1'b0;
         pc_next_sel         = 2'b00;
-        alu_decode_input    = 2'b00;
+        alu_op              = 2'b00;
         alu_src_b_sel       = 2'b00;
         alu_src_a_sel       = 1'b0;
         reg_wr_en           = 1'b0;
@@ -238,7 +238,7 @@ module control_unit#(
         enable_pc           = 1'b0;
         branch              = 1'b0;
         pc_next_sel         = 2'b00;
-        alu_decode_input    = 2'b10;
+        alu_op              = 2'b10;
         alu_src_b_sel       = 2'b00;
         alu_src_a_sel       = 1'b1;
         reg_wr_en           = 1'b0;
@@ -253,7 +253,7 @@ module control_unit#(
         enable_pc           = 1'b0;
         branch              = 1'b0;
         pc_next_sel         = 2'b00;
-        alu_decode_input    = 2'b00;
+        alu_op              = 2'b00;
         alu_src_b_sel       = 2'b00;
         alu_src_a_sel       = 1'b0;
         reg_wr_en           = 1'b1;
@@ -268,7 +268,7 @@ module control_unit#(
         enable_pc           = 1'b0;
         branch              = 1'b1;
         pc_next_sel         = 2'b01;
-        alu_decode_input    = 2'b01;
+        alu_op              = 2'b01;
         alu_src_b_sel       = 2'b00;
         alu_src_a_sel       = 1'b1;
         reg_wr_en           = 1'b0;
@@ -283,7 +283,7 @@ module control_unit#(
         enable_pc           = 1'b0;
         branch              = 1'b0;
         pc_next_sel         = 2'b00;
-        alu_decode_input    = 2'b00;
+        alu_op              = 2'b00;
         alu_src_b_sel       = 2'b10;
         alu_src_a_sel       = 1'b1;
         reg_wr_en           = 1'b0;
@@ -298,7 +298,7 @@ module control_unit#(
         enable_pc           = 1'b0;
         branch              = 1'b0;
         pc_next_sel         = 2'b00;
-        alu_decode_input    = 2'b00;
+        alu_op              = 2'b00;
         alu_src_b_sel       = 2'b00;
         alu_src_a_sel       = 1'b0;
         reg_wr_en           = 1'b1;
@@ -313,7 +313,7 @@ module control_unit#(
         enable_pc           = 1'b1;
         branch              = 1'b0;
         pc_next_sel         = 2'b10;
-        alu_decode_input    = 2'b00;
+        alu_op              = 2'b00;
         alu_src_b_sel       = 2'b00;
         alu_src_a_sel       = 1'b0;
         reg_wr_en           = 1'b0;
@@ -329,7 +329,7 @@ module control_unit#(
         enable_pc           = 1'b1;
         branch              = 1'b0;
         pc_next_sel         = 1'b0;
-        alu_decode_input    = 2'b00;
+        alu_op              = 2'b00;
         alu_src_b_sel       = 2'b01;
         alu_src_a_sel       = 1'b0;
         reg_wr_en           = 1'b0;

@@ -29,7 +29,7 @@ module core#(
   reg [DATA_WIDTH_P-1:0] sign_extend_imm;
   wire enable_pc;
   wire pc_wr_en;
-  wire pc_next_sel;
+  wire [1:0] pc_next_sel;
 
   // instruction and data memory
   wire [DATA_WIDTH_P-1:0] instr;
@@ -93,16 +93,23 @@ module core#(
     .FUNCT_WIDTH_P(FUNCT_WIDTH_P),
     .OP_WIDTH_P(OP_WIDTH_P))
   cntrl_unit_i(
+    .clk(clk),
+    .reset(reset),
     .i_opcode(instr[DATA_WIDTH_P-1:26]),
     .i_function(instr[5:0]),
-    .o_mem_wr_en(mem_wr_en),
+
+    .o_enable_pc(pc_wr_en),
     .o_branch(branch),
+    .o_pc_next_sel(pc_next_sel),
     .o_alu_cntrl(alu_control),
-    .o_alu_src_sel(alu_src_sel),
-    .o_reg_wr_addr_sel(reg_wr_addr_sel),
+    .o_alu_src_b_sel(alu_in_b_sel),
+    .o_alu_src_a_sel(alu_in_a_sel),
     .o_reg_wr_en(reg_wr_en),
-    .o_reg_wr_data_sel(reg_wr_data_sel),
-    .o_jump(jump));
+    .o_instr_data_addr_sel(instr_data_addr_sel),
+    .o_instr_data_wr_en(instr_data_wr_en),
+    .o_instr_wr_en(instr_wr_en),
+    .o_reg_wr_addr_sel(reg_wr_addr_sel),
+    .o_reg_wr_data_sel(reg_wr_data_sel));
 
   //----------------------------------------------------------------------------
 
@@ -120,23 +127,21 @@ module core#(
   end
   
   assign enable_pc = (zero_alu_result & branch) | pc_wr_en;
-  assign pc_next = pc_next_sel ? alu_out_d : alu_out;
 
-  assign pc_add = p;
-
-  // BEQ logic
-  assign beq_pc = pc_add + (sign_extend_imm << 2);
-
-  // JUMP logic
-  assign j_type_jump = {pc_add[DATA_WIDTH_P-1:28],instr[25:0],2'b00};
-
-  // next pc multiplexer
   always @(*) begin
-    case({jump,branch & zero_alu_result})
-      2'b00 : pc_next = pc_add;
-      2'b01 : pc_next = beq_pc;
-      2'b10 : pc_next = j_type_jump;
-      default : pc_next = pc_add;
+    case (pc_next_sel)
+      2'b00     : begin
+        pc_next = alu_out;
+      end
+      2'b01     : begin
+        pc_next = alu_out_d;
+      end
+      2'b10     : begin
+        pc_next = {pc_add[DATA_WIDTH_P-1:28],instr[25:0],2'b00};
+      end
+      default   : begin
+        pc_next = alu_out;
+      end
     endcase
   end
 
