@@ -118,7 +118,7 @@ module control_unit#(
 
   always @(*) begin
     case(ctrl_state)
-      FETCH           : begin
+      FETCH : begin
         enable_pc           = 1'b1;
         branch              = 1'b0;
         pc_next_sel         = 1'b0;
@@ -133,7 +133,7 @@ module control_unit#(
         reg_wr_data_sel     = 1'b0;
         next_state          = DECODE;
       end
-      DECODE          : begin
+      DECODE : begin
         enable_pc           = 1'b0;
         branch              = 1'b0;
         pc_next_sel         = 1'b0;
@@ -170,7 +170,7 @@ module control_unit#(
           end
         endcase
       end
-      MEMADR          : begin
+      MEMADR : begin
         enable_pc           = 1'b0;
         branch              = 1'b0;
         pc_next_sel         = 2'b00;
@@ -189,7 +189,7 @@ module control_unit#(
           next_state = MEMWRITE;
         end;
       end
-      MEMREAD         : begin
+      MEMREAD : begin
         enable_pc           = 1'b0;
         branch              = 1'b0;
         pc_next_sel         = 2'b00;
@@ -204,7 +204,7 @@ module control_unit#(
         reg_wr_data_sel     = 1'b0;
         next_state          = MEMWRITEBACK;
       end
-      MEMWRITEBACK    : begin
+      MEMWRITEBACK : begin
         enable_pc           = 1'b0;
         branch              = 1'b0;
         pc_next_sel         = 2'b00;
@@ -219,7 +219,7 @@ module control_unit#(
         reg_wr_data_sel     = 1'b1;
         next_state          = FETCH;
       end
-      MEMWRITE        : begin
+      MEMWRITE : begin
         enable_pc           = 1'b0;
         branch              = 1'b0;
         pc_next_sel         = 2'b00;
@@ -234,7 +234,7 @@ module control_unit#(
         reg_wr_data_sel     = 1'b0;
         next_state          = FETCH;
       end
-      EXECUTE         : begin
+      EXECUTE : begin
         enable_pc           = 1'b0;
         branch              = 1'b0;
         pc_next_sel         = 2'b00;
@@ -249,7 +249,7 @@ module control_unit#(
         reg_wr_data_sel     = 1'b0;
         next_state          = ALUWRITEBACK;
       end
-      ALUWRITEBACK    : begin
+      ALUWRITEBACK : begin
         enable_pc           = 1'b0;
         branch              = 1'b0;
         pc_next_sel         = 2'b00;
@@ -264,7 +264,7 @@ module control_unit#(
         reg_wr_data_sel     = 1'b0;
         next_state          = FETCH;
       end
-      BRANCH          : begin
+      BRANCH : begin
         enable_pc           = 1'b0;
         branch              = 1'b1;
         pc_next_sel         = 2'b01;
@@ -279,7 +279,7 @@ module control_unit#(
         reg_wr_data_sel     = 1'b0;
         next_state          = FETCH;
       end
-      ADDI_EXEC       : begin
+      ADDI_EXEC : begin
         enable_pc           = 1'b0;
         branch              = 1'b0;
         pc_next_sel         = 2'b00;
@@ -324,7 +324,7 @@ module control_unit#(
         reg_wr_data_sel     = 1'b0;
         next_state          = FETCH;
       end 
-      default         : begin
+      default : begin
         // this is the FETCH state
         enable_pc           = 1'b1;
         branch              = 1'b0;
